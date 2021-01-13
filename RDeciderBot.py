@@ -11,6 +11,7 @@ Telegram Bot: https://t.me/rdeciderbot
 """
 
 import logging
+import os
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from random import choice
@@ -21,6 +22,8 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
+PORT = int(os.environ.get('PORT', 5000))
 
 options = []
 
@@ -74,7 +77,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0", use_context=True)
+    updater = Updater(TOKEN, use_context=True)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -89,7 +92,10 @@ def main():
     dispatcher.add_handler(CommandHandler("delete", delete))
 
     # Start the Bot
-    updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+    updater.bot.setWebhook('https://yourherokuappname.herokuapp.com/' + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
