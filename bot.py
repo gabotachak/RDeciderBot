@@ -22,8 +22,10 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
 TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
 PORT = int(os.environ.get('PORT', 5000))
+ADDRESS = "https://safe-scrubland-23143.herokuapp.com/"
 
 options = []
 
@@ -95,7 +97,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
-    updater.bot.setWebhook('https://yourherokuappname.herokuapp.com/' + TOKEN)
+    updater.bot.setWebhook(ADDRESS + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
