@@ -89,6 +89,7 @@ def main():
     dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CommandHandler("add", add))
     dispatcher.add_handler(CommandHandler("choose", choose))
+    dispatcher.add_handler(CommandHandler("decide", choose))
     dispatcher.add_handler(CommandHandler("list", see))
     dispatcher.add_handler(CommandHandler("clear", clear))
     dispatcher.add_handler(CommandHandler("delete", delete))
