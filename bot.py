@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
 PORT = int(os.environ.get('PORT', 5000))
-ADDRESS = "https://whispering-chamber-86453.herokuapp.com/"
+ADDRESS = "https://rdeciderbot.herokuapp.com/"
 
 options = []
 
