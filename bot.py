@@ -44,7 +44,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
-    update.message.reply_html("&#8226; Just use <code>/add 'new option'</code> to add an option into the list\n\n&#8226; When you're ready use <code>/choose</code> to pick one\n\n&#8226; Wanna see the list?\n\t\t\t\tUse <code>/list</code>\n\n&#8226; Wanna clear the list?\n\t\t\t\tUse <code>/clear</code>\n\n&#8226; Wanna delete a specific option?\n\t\t\t\tUse <code>/delete 'option to delete'</code>, please be specific")
+    update.message.reply_html("&#8226; Just use <code>/add 'new option'</code> to add an option into the list\n\n&#8226; When you're ready use <code>/choose</code> or <code>/decide</code> to pick one\n\n&#8226; Wanna see the list?\n\t\t\t\tUse <code>/list</code>\n\n&#8226; Wanna clear the list?\n\t\t\t\tUse <code>/clear</code>\n\n&#8226; Wanna delete a specific option?\n\t\t\t\tUse <code>/delete 'option to delete'</code>, please be specific")
     
 def add(update: Update, context: CallbackContext) -> None:
     update.message.reply_html(concat(context.args)+" added!")
@@ -71,8 +71,14 @@ def clear(update: Update, context: CallbackContext) -> None:
 
 def delete(update: Update, context: CallbackContext) -> None:
     td = concat(context.args)
-    options.remove(td)
-    update.message.reply_html(concat(context.args)+" deleted!")
+    if(options):
+        if(td in options):
+            options.remove(td)
+            update.message.reply_html(concat(context.args)+" deleted!")
+        else:
+            update.message.reply_html(concat(context.args)+" not found! try again")
+    else:
+        update.message.reply_html("There's nothing in the list to delete")
 
 def main():
     """Start the bot."""
