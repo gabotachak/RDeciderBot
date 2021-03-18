@@ -23,8 +23,8 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-# TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0" TOKEN for stable version
-TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM" # TOKEN for test version
+TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0" # TOKEN for stable version
+# TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM" # TOKEN for test version
 PORT = int(os.environ.get('PORT', 5000))
 ADDRESS = "https://whispering-chamber-86453.herokuapp.com/"
 
@@ -111,13 +111,13 @@ def main():
     dispatcher.add_handler(CommandHandler("delete", delete))
 
     # Start the Bot for stable version
-    # updater.start_webhook(listen="0.0.0.0",
-    #                       port=int(PORT),
-    #                       url_path=TOKEN)
-    # updater.bot.setWebhook(ADDRESS + TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                           port=int(PORT),
+                           url_path=TOKEN)
+    updater.bot.setWebhook(ADDRESS + TOKEN)
 
     # Start the Bot for test version
-    updater.start_polling()
+    # updater.start_polling()
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
