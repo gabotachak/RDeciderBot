@@ -23,9 +23,10 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
+# TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0" TOKEN for stable version
+TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM" # TOKEN for test version
 PORT = int(os.environ.get('PORT', 5000))
-ADDRESS = "https://rdeciderbot.herokuapp.com/"
+ADDRESS = "https://whispering-chamber-86453.herokuapp.com/"
 
 options = []
 
@@ -47,8 +48,15 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_html("&#8226; Just use <code>/add 'new option'</code> to add an option into the list\n\n&#8226; When you're ready use <code>/choose</code> or <code>/decide</code> to pick one\n\n&#8226; Wanna see the list?\n\t\t\t\tUse <code>/list</code>\n\n&#8226; Wanna clear the list?\n\t\t\t\tUse <code>/clear</code>\n\n&#8226; Wanna delete a specific option?\n\t\t\t\tUse <code>/delete 'option to delete'</code>, please be specific")
     
 def add(update: Update, context: CallbackContext) -> None:
-    update.message.reply_html(concat(context.args)+" added!")
-    options.append(concat(context.args))
+    ta = concat(context.args)
+    if(ta):
+        if(ta not in options):
+            options.append(ta)
+            update.message.reply_html(ta+" added!")
+        else:
+            update.message.reply_html(ta+" is already on the list")
+    else:
+        update.message.reply_html("Please write something to add")
 
 def choose(update: Update, context: CallbackContext) -> None:
     if(not options):
@@ -72,11 +80,13 @@ def clear(update: Update, context: CallbackContext) -> None:
 def delete(update: Update, context: CallbackContext) -> None:
     td = concat(context.args)
     if(options):
-        if(td in options):
+        if(not td):
+            update.message.reply_html("Please write something to delete")
+        elif(td in options):
             options.remove(td)
-            update.message.reply_html(concat(context.args)+" deleted!")
+            update.message.reply_html(td+" deleted!")
         else:
-            update.message.reply_html(concat(context.args)+" not found! try again")
+            update.message.reply_html(td+" not found! try again")
     else:
         update.message.reply_html("There's nothing in the list to delete")
 
@@ -100,11 +110,14 @@ def main():
     dispatcher.add_handler(CommandHandler("clear", clear))
     dispatcher.add_handler(CommandHandler("delete", delete))
 
-    # Start the Bot
-    updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=TOKEN)
-    updater.bot.setWebhook(ADDRESS + TOKEN)
+    # Start the Bot for stable version
+    # updater.start_webhook(listen="0.0.0.0",
+    #                       port=int(PORT),
+    #                       url_path=TOKEN)
+    # updater.bot.setWebhook(ADDRESS + TOKEN)
+
+    # Start the Bot for test version
+    updater.start_polling()
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
