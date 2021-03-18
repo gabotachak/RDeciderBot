@@ -23,7 +23,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-MODE = "test" # stable to deploy in heroku or test to deploy locally
+MODE = "stable" # stable to deploy in heroku or test to deploy locally
 
 if(MODE == "stable"):
     # TOKEN for stable version
@@ -41,7 +41,7 @@ ADDRESS = "https://rdeciderbot.herokuapp.com/"
 options = []
 
 
-def concat(l):
+def concat(l) -> str:
     r = ""
     for e in l:
         r += e + " "
