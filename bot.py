@@ -23,8 +23,18 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"  # TOKEN for stable version
-# TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM" # TOKEN for test version
+MODE = "test" # stable to deploy in heroku or test to deploy locally
+
+if(MODE == "stable"):
+    # TOKEN for stable version
+    TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
+elif(MODE == "test"):
+    # TOKEN for test version
+    TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM"
+else:
+    print("Please select mode")
+    exit()
+
 PORT = int(os.environ.get('PORT', 5000))
 ADDRESS = "https://rdeciderbot.herokuapp.com/"
 
@@ -121,20 +131,16 @@ def main():
     dispatcher.add_handler(CommandHandler("clear", clear))
     dispatcher.add_handler(CommandHandler("delete", delete))
 
-    # Start the Bot for stable version
-
-    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
-    updater.bot.setWebhook(ADDRESS + TOKEN)
-
-    # Start the Bot for test version
-
-    # updater.start_polling()
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
-    updater.idle()
-
+    if(MODE == "stable"):
+        # Start the Bot for stable version
+        updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
+        updater.bot.setWebhook(ADDRESS + TOKEN)
+    elif(MODE == "test"):
+        # Start the Bot for test version
+        updater.start_polling()
+        updater.idle()
+    
+    
 
 if __name__ == '__main__':
     main()
