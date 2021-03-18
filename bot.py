@@ -23,12 +23,13 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0" # TOKEN for stable version
+TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"  # TOKEN for stable version
 # TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM" # TOKEN for test version
 PORT = int(os.environ.get('PORT', 5000))
-ADDRESS = "https://whispering-chamber-86453.herokuapp.com/"
+ADDRESS = "https://rdeciderbot.herokuapp.com/"
 
 options = []
+
 
 def concat(l):
     r = ""
@@ -38,15 +39,19 @@ def concat(l):
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
+
+
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
-    update.message.reply_html('Hello!\n\nI\'m ready to take note of your options\n\nUse <code>/help</code> for instructions')
+    update.message.reply_html(
+        'Hello!\n\nI\'m ready to take note of your options\n\nUse <code>/help</code> for instructions')
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_html("&#8226; Just use <code>/add 'new option'</code> to add an option into the list\n\n&#8226; When you're ready use <code>/choose</code> or <code>/decide</code> to pick one\n\n&#8226; Wanna see the list?\n\t\t\t\tUse <code>/list</code>\n\n&#8226; Wanna clear the list?\n\t\t\t\tUse <code>/clear</code>\n\n&#8226; Wanna delete a specific option?\n\t\t\t\tUse <code>/delete 'option to delete'</code>, please be specific")
-    
+
+
 def add(update: Update, context: CallbackContext) -> None:
     ta = concat(context.args)
     if(ta):
@@ -58,11 +63,14 @@ def add(update: Update, context: CallbackContext) -> None:
     else:
         update.message.reply_html("Please write something to add")
 
+
 def choose(update: Update, context: CallbackContext) -> None:
     if(not options):
-        update.message.reply_html("Please add options first, you can't choose something from nothing")
+        update.message.reply_html(
+            "Please add options first, you can't choose something from nothing")
     else:
         update.message.reply_html("Congrats, "+choice(options)+" won!")
+
 
 def see(update: Update, context: CallbackContext) -> None:
     if(not options):
@@ -73,9 +81,11 @@ def see(update: Update, context: CallbackContext) -> None:
             l += "&#8226; " + e + "\n"
         update.message.reply_html("<b>List:</b>\n\n"+l)
 
+
 def clear(update: Update, context: CallbackContext) -> None:
     options.clear()
     update.message.reply_html("List cleared!")
+
 
 def delete(update: Update, context: CallbackContext) -> None:
     td = concat(context.args)
@@ -89,6 +99,7 @@ def delete(update: Update, context: CallbackContext) -> None:
             update.message.reply_html(td+" not found! try again")
     else:
         update.message.reply_html("There's nothing in the list to delete")
+
 
 def main():
     """Start the bot."""
@@ -111,12 +122,12 @@ def main():
     dispatcher.add_handler(CommandHandler("delete", delete))
 
     # Start the Bot for stable version
-    updater.start_webhook(listen="0.0.0.0",
-                           port=int(PORT),
-                           url_path=TOKEN)
+
+    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
     updater.bot.setWebhook(ADDRESS + TOKEN)
 
     # Start the Bot for test version
+
     # updater.start_polling()
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
