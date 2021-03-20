@@ -53,8 +53,7 @@ def concat(l) -> str:
 
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
-    update.message.reply_html(
-        'Hello!\n\nI\'m ready to take note of your options\n\nUse <code>/help</code> for instructions')
+    update.message.reply_html('Hello!\n\nI\'m ready to take note of your options\n\nUse <code>/help</code> for instructions')
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
@@ -76,8 +75,7 @@ def add(update: Update, context: CallbackContext) -> None:
 
 def choose(update: Update, context: CallbackContext) -> None:
     if(not options):
-        update.message.reply_html(
-            "Please add options first, you can't choose something from nothing")
+        update.message.reply_html("Please add options first, you can't choose something from nothing")
     else:
         update.message.reply_html("Congrats, "+choice(options)+" won!")
 
