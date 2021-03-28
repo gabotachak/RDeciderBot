@@ -27,7 +27,7 @@ MODE = "stable" # stable to deploy in heroku or test to deploy locally
 
 if(MODE == "stable"):
     # TOKEN for stable version
-    TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
+    TOKEN = "1532726513:AAEGFBuU8kvHtnWhAN2peFQzUzjz3Cc11YU"
     PORT = int(os.environ.get('PORT', 5000))
     ADDRESS = "https://rdeciderbot.herokuapp.com/"
 elif(MODE == "test"):
