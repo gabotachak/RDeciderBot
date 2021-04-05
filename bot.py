@@ -24,10 +24,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv('RDeciderBotToken')
-print("Token:",TOKEN)
+print("TOKEN:",TOKEN)
 PORT = int(os.environ.get('PORT', 5000))
+print("PORT:",PORT)
 ADDRESS = os.getenv('RDeciderBotAddress')
-print("Address:",ADDRESS)
+print("ADDRESS:",ADDRESS)
 
 options = []
 
@@ -121,12 +122,13 @@ def main():
     dispatcher.add_handler(CommandHandler("delete", delete))
 
     if(ADDRESS is not None):
-        print("WORKS")
         updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
         updater.bot.setWebhook(ADDRESS + TOKEN)
+        print("WEBHOOK READY")
     else:
         updater.start_polling()
         updater.idle()
+        print("LOCAL READY")
     
     
 
