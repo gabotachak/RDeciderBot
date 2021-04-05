@@ -23,19 +23,9 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-MODE = "stable" # stable to deploy in heroku or test to deploy locally
-
-if(MODE == "stable"):
-    # TOKEN for stable version
-    TOKEN = "1532726513:AAGan17BF5hn8lBcRMFKZY3IrqMeeWjUmo0"
-    PORT = int(os.environ.get('PORT', 5000))
-    ADDRESS = "https://rdeciderbot.herokuapp.com/"
-elif(MODE == "test"):
-    # TOKEN for test version
-    TOKEN = "1610152624:AAGSQm5gHQm2o8dFs4Z6fPVaW86Za1DGVzM"
-else:
-    print("Please select mode")
-    exit()
+TOKEN = os.getenv('RDeciderBotToken')
+PORT = int(os.environ.get('PORT', 5000))
+ADDRESS = os.getenv('RDeciderBotAddress')
 
 options = []
 
@@ -128,12 +118,10 @@ def main():
     dispatcher.add_handler(CommandHandler("clear", clear))
     dispatcher.add_handler(CommandHandler("delete", delete))
 
-    if(MODE == "stable"):
-        # Start the Bot for stable version
+    if(ADDRESS is not None):
         updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
         updater.bot.setWebhook(ADDRESS + TOKEN)
-    elif(MODE == "test"):
-        # Start the Bot for test version
+    else:
         updater.start_polling()
         updater.idle()
     
