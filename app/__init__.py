@@ -14,6 +14,7 @@ COMMAND_HANDLERS = {
     'choose': choose,
     'clear': clear,
     'delete': delete,
+    'remove': delete,
     'decide': choose,
     'help': help_command,
     'list': see,
